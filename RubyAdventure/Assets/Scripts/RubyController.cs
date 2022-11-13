@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
     
     public int maxHealth = 5;
+    public TextMeshPro fixedText;
+    public TextMeshPro ammo;
+    public int FixedRobots = 0;
     
     public GameObject projectilePrefab;
     
     public AudioClip throwSound;
+    public AudioClip backgroundSound;
+    public AudioClip loseSound;
+    public AudioClip winSound;
     public AudioClip hitSound;
+    public GameObject winText;
+    public GameObject loseText;
+    bool GameOver;
     
     public int health { get { return currentHealth; }}
     int currentHealth;
@@ -27,6 +37,9 @@ public class RubyController : MonoBehaviour
     
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
+
+    public ParticleSystem damageEffect;
+    public ParticleSystem healEffect;
     
     AudioSource audioSource;
     
@@ -37,6 +50,9 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         
         currentHealth = maxHealth;
+
+        winText.SetActive(false);
+        loseText.SetActive(false);
 
         audioSource = GetComponent<AudioSource>();
     }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5987677811626992246}
   - component: {fileID: 8297585941793839214}
   - component: {fileID: 7246276191079038373}
+  - component: {fileID: 5562696929208914762}
   m_Layer: 8
   m_Name: RubySprite
   m_TagString: RubyController
@@ -251,3 +252,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5562696929208914762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2909636727746314738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133d1268a67115a489eee1ad51b93efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  maxHealth: 5
+  projectilePrefab: {fileID: 8636677743792364521, guid: cfc509a029da7724abfa5ea2d643c786, type: 3}
+  throwSound: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
+  hitSound: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
+  timeInvincible: 2

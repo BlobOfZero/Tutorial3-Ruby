@@ -9,10 +9,11 @@ public class RubyController : MonoBehaviour
     public float speed = 3.0f;
     
     public int maxHealth = 5;
-    public TextMeshPro fixedText;
-    public TextMeshPro ammo;
-    public int FixedRobots = 0;
-    
+    public TextMeshProUGUI fixedText;
+    public TextMeshProUGUI AmmoText;
+    private int ScoreNumber = 0;
+    private int Ammonumb;
+
     public GameObject projectilePrefab;
     
     public AudioClip throwSound;
@@ -39,7 +40,6 @@ public class RubyController : MonoBehaviour
     Vector2 lookDirection = new Vector2(1,0);
 
     public ParticleSystem damageEffect;
-    public ParticleSystem healEffect;
     
     AudioSource audioSource;
     
@@ -50,6 +50,8 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         
         currentHealth = maxHealth;
+
+         fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/6";
 
         winText.SetActive(false);
         loseText.SetActive(false);
@@ -122,10 +124,18 @@ public class RubyController : MonoBehaviour
             
             PlaySound(hitSound);
         }
+
+        if (currentHealth <= 1)
+        {
+            loseText.SetActive(true);
+            Destroy(gameObject);
+        }
         
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
+        
+        Instantiate(damageEffect, transform.position + Vector3.up * 0.5f, Quaternion.identity);
     }
     
     void Launch()
@@ -138,8 +148,19 @@ public class RubyController : MonoBehaviour
         animator.SetTrigger("Launch");
         
         PlaySound(throwSound);
-    } 
-    
+    }
+
+    public void ChangeScore()
+    {
+
+    }
+    public void FixedRobots(int amount)
+    {
+        ScoreNumber += amount;
+        fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/4";
+
+        Debug.Log("Fixed Robots: " + ScoreNumber);
+    }
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);

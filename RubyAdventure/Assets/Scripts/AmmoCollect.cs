@@ -7,7 +7,7 @@ public class AmmoCollect : MonoBehaviour
     public AudioClip collectedClip;
     void OnTriggerEnter2D(Collider2D other)
     {
-        RubyController controller = other.GetComponent<RubyController>();
+        /*RubyController controller = other.GetComponent<RubyController>();
 
         if (controller != null)
         {
@@ -21,4 +21,5 @@ public class AmmoCollect : MonoBehaviour
             }
         }
     }
+*/}
 }

@@ -7,19 +7,17 @@ public class AmmoCollect : MonoBehaviour
     public AudioClip collectedClip;
     void OnTriggerEnter2D(Collider2D other)
     {
-        /*RubyController controller = other.GetComponent<RubyController>();
-
+        RubyController controller = other.GetComponent<RubyController>();
         if (controller != null)
         {
             if (controller.ammo <= controller.currentAmmo)
             {
-                controller.ChangeAmmo(4); // Adds 4 ammo
-                controller.AmmoText(); // Changes Ammo UI
+                controller.ChangeAmmo(4);
+                controller.ammoText();
                 Destroy(gameObject);
 
                 controller.PlaySound(collectedClip);
             }
         }
     }
-*/}
 }

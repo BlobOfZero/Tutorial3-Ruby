@@ -1,10 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
     Rigidbody2D rigidbody2d;
+
+    private RubyController RC;
     
     void Awake()
     {

@@ -7,23 +7,24 @@ using UnityEngine.SceneManagement;
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
-    
     public int maxHealth = 5;
     public TextMeshProUGUI fixedText;
     public TextMeshProUGUI AmmoText;
-    private int ScoreNumber = 0;
-    private int Ammonumb;
+    private int ScoreNumber = 0; //The amount of robots Ruby has fixed
+   
+private RubyController rubyController;
+
+    public int ammo { get { return currentAmmo; }}
+    public int maxAmmo = 4; //Max Ammo Ruby can have
+    public int currentAmmo; 
 
     public GameObject projectilePrefab;
-    
     public AudioClip throwSound;
-    public AudioClip backgroundSound;
-    public AudioClip loseSound;
-    public AudioClip winSound;
     public AudioClip hitSound;
     public GameObject winText;
     public GameObject loseText;
     bool GameOver;
+    bool WinGame;
     
     public int health { get { return currentHealth; }}
     int currentHealth;
@@ -35,6 +36,8 @@ public class RubyController : MonoBehaviour
     Rigidbody2D rigidbody2d;
     float horizontal;
     float vertical;
+
+    public static int Level = 1;
     
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
@@ -42,19 +45,47 @@ public class RubyController : MonoBehaviour
     public ParticleSystem damageEffect;
     
     AudioSource audioSource;
+
+    public AudioSource BackgroundManager;
     
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = 60;
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+         GameObject rubyControllerObject = GameObject.FindWithTag("RubyController"); //this line of code finds the RubyController script by looking for a "RubyController" tag on Ruby
+
+        if (rubyControllerObject != null)
+
+        {
+
+            rubyController = rubyControllerObject.GetComponent<RubyController>(); //and this line of code finds the rubyController and then stores it in a variable
+
+            print ("Found the RubyConroller Script!");
+        }
+
+        if (rubyController == null)
+
+        {
+
+            print ("Cannot find GameController Script!");
+
+        }
         
         currentHealth = maxHealth;
 
-         fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/6";
+        currentAmmo = maxAmmo;
+
+        AmmoText.text = "Current Cogs:" + currentAmmo.ToString() + "/4";
+
+         fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/4";
 
         winText.SetActive(false);
         loseText.SetActive(false);
+        bool WinGame = false;
+        bool GameOver = false;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -87,6 +118,24 @@ public class RubyController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.C))
         {
             Launch();
+            if (ammo > 0)
+            {
+                ChangeAmmo(-1);
+                ammoText();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if (GameOver == true)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.X))
@@ -97,7 +146,16 @@ public class RubyController : MonoBehaviour
                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
                 if (character != null)
                 {
-                    character.DisplayDialog();
+                    if (ScoreNumber >= 4)
+                    {
+                        SceneManager.LoadScene("Level 2");
+                        Level = 2;
+                    }
+                    else
+                    {
+                        character.DisplayDialog();
+                    }
+                    
                 }
             }
         }
@@ -128,7 +186,10 @@ public class RubyController : MonoBehaviour
         if (currentHealth <= 1)
         {
             loseText.SetActive(true);
+            bool GameOver = true;
+            SoundManagerScript.PlaySound("FailSound");
             Destroy(gameObject);
+            BackgroundManager.Stop();
         }
         
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
@@ -139,7 +200,8 @@ public class RubyController : MonoBehaviour
     }
     
     void Launch()
-    {
+    { if (currentAmmo > 0)
+        {
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
 
         Projectile projectile = projectileObject.GetComponent<Projectile>();
@@ -148,18 +210,42 @@ public class RubyController : MonoBehaviour
         animator.SetTrigger("Launch");
         
         PlaySound(throwSound);
+        }
     }
 
-    public void ChangeScore()
+    public void ChangeAmmo(int amount)
     {
-
+        currentAmmo = Mathf.Abs(currentAmmo + amount);
+    Debug.Log("Ammo: " + currentAmmo);
     }
+
+    public void ammoText()
+    {
+        AmmoText.text = "Ammo: " + currentAmmo.ToString();
+    }
+
     public void FixedRobots(int amount)
     {
         ScoreNumber += amount;
         fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/4";
 
         Debug.Log("Fixed Robots: " + ScoreNumber);
+
+        if (ScoreNumber == 2 && Level == 2)
+        {
+            WinGame = true;
+            winText.SetActive(true);
+
+            transform.position = new Vector3(-5f, 0f, -100f);
+            speed = 0;
+
+            Destroy(gameObject.GetComponent<SpriteRenderer>());
+
+            SoundManagerScript.PlaySound("WinSound");
+
+            BackgroundManager.Stop();
+
+        }
     }
     public void PlaySound(AudioClip clip)
     {

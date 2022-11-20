@@ -7,20 +7,27 @@ public class EnemyController : MonoBehaviour
     public float speed;
     public bool vertical;
     public float changeTime = 3.0f;
-
-    Rigidbody2D rigidbody2D;
+    public ParticleSystem smokeEffect;
+    Rigidbody2D Rigidbody2D;
     float timer;
     int direction = 1;
     bool broken = true;
+    private RubyController rubyController;
     
     Animator animator;
+
+    public AudioClip BrokenSound;
+    public AudioClip FixedSound;
     
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
         timer = changeTime;
         animator = GetComponent<Animator>();
+
+        GameObject rubyControllerObject = GameObject.FindWithTag("RubyController");
+        rubyController = rubyControllerObject.GetComponent<RubyController>();
     }
 
     void Update()
@@ -48,7 +55,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
         
-        Vector2 position = rigidbody2D.position;
+        Vector2 position = Rigidbody2D.position;
         
         if (vertical)
         {
@@ -63,12 +70,12 @@ public class EnemyController : MonoBehaviour
             animator.SetFloat("Move Y", 0);
         }
         
-        rigidbody2D.MovePosition(position);
+        Rigidbody2D.MovePosition(position);
     }
     
     void OnCollisionEnter2D(Collision2D other)
     {
-        RubyController player = other.gameObject.GetComponent<RubyController >();
+        RubyController player = other.gameObject.GetComponent<RubyController>();
 
         if (player != null)
         {
@@ -80,8 +87,16 @@ public class EnemyController : MonoBehaviour
     public void Fix()
     {
         broken = false;
-        rigidbody2D.simulated = false;
+        Rigidbody2D.simulated = false;
+
         //optional if you added the fixed animation
         animator.SetTrigger("Fixed");
+
+        smokeEffect.Stop();
+        
+        if (rubyController != null)
+        {
+            rubyController.FixedRobots(1); //adding to Fixed Robots count
+        }
     }
 }

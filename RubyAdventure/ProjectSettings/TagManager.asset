@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ammo
   - RubyController
+  - EnemyRobot
   layers:
   - Default
   - TransparentFX

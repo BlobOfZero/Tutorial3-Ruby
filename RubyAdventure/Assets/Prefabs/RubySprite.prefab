@@ -266,7 +266,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   maxHealth: 5
+  fixedText: {fileID: 0}
+  AmmoText: {fileID: 0}
+  maxAmmo: 4
+  currentAmmo: 0
   projectilePrefab: {fileID: 8636677743792364521, guid: cfc509a029da7724abfa5ea2d643c786, type: 3}
   throwSound: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
   hitSound: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
+  winText: {fileID: 0}
+  loseText: {fileID: 0}
   timeInvincible: 2
+  damageEffect: {fileID: 0}
+  BackgroundManager: {fileID: 8182203111112053993, guid: 2ae3f5382f96b924b84dadc4d7fa2ea2, type: 3}

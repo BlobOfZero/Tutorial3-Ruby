@@ -6,7 +6,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/ChallengeBuild;C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/PeerReviewBuild;C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/Builds;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/Final Modification Build;C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/ChallengeBuild;C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/PeerReviewBuild;C:/Users/Erin/Desktop/Tutorial3/Tutorial3-Ruby/RubyAdventure/Builds;;;;;;\"}"
             },
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",

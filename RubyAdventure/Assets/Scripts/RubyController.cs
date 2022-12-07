@@ -11,12 +11,19 @@ public class RubyController : MonoBehaviour
     public TextMeshProUGUI fixedText;
     public TextMeshProUGUI AmmoText;
     private int ScoreNumber = 0; //The amount of robots Ruby has fixed
+
+    //Speed Boost
+    public float timeBoosting = 4.0f;
+    float speedBoostTimer;
+    bool isBoosting;
    
 private RubyController rubyController;
 
     public int ammo { get { return currentAmmo; }}
     public int maxAmmo = 4; //Max Ammo Ruby can have
-    public int currentAmmo; 
+    public int currentAmmo;
+
+    public int currentChicken;
 
     public GameObject projectilePrefab;
     public AudioClip throwSound;
@@ -57,32 +64,19 @@ private RubyController rubyController;
 
          GameObject rubyControllerObject = GameObject.FindWithTag("RubyController"); //this line of code finds the RubyController script by looking for a "RubyController" tag on Ruby
 
-        if (rubyControllerObject != null)
-
-        {
-
-            rubyController = rubyControllerObject.GetComponent<RubyController>(); //and this line of code finds the rubyController and then stores it in a variable
-
-            print ("Found the RubyConroller Script!");
-        }
-
-        if (rubyController == null)
-
-        {
-
-            print ("Cannot find GameController Script!");
-
-        }
         
         currentHealth = maxHealth;
 
         currentAmmo = maxAmmo;
 
+        currentChicken = 0;
+
+      
         AmmoText.text = "Current Cogs:" + currentAmmo.ToString() + "/4";
 
          fixedText.text = "Fixed Robots: " + ScoreNumber.ToString() + "/4";
 
-        winText.SetActive(false);
+            winText.SetActive(false);
         loseText.SetActive(false);
         bool WinGame = false;
         bool GameOver = false;
@@ -224,6 +218,12 @@ private RubyController rubyController;
         AmmoText.text = "Ammo: " + currentAmmo.ToString();
     }
 
+    public void CollectedChicken(int amount)
+    {
+        currentChicken = Mathf.Abs(currentChicken + amount);
+        Debug.Log("Chickens Collected" + currentChicken);
+    }
+
     public void FixedRobots(int amount)
     {
         ScoreNumber += amount;
@@ -231,7 +231,7 @@ private RubyController rubyController;
 
         Debug.Log("Fixed Robots: " + ScoreNumber);
 
-        if (ScoreNumber == 2 && Level == 2)
+        if (ScoreNumber == 2 && Level == 2 && currentChicken == 1)
         {
             WinGame = true;
             winText.SetActive(true);
@@ -247,8 +247,17 @@ private RubyController rubyController;
 
         }
     }
+    
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
+    }
+    public void SpeedBoost(int amount)
+    { if(amount >0)
+        {
+             speedBoostTimer = timeBoosting;
+            isBoosting = true;
+        }
+
     }
 }
